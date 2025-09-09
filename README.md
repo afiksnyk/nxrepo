@@ -1,96 +1,183 @@
-# Nxrepo
+# NX Monorepo with pnpm
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+A modern monorepo setup using NX build system with pnpm package manager. This workspace includes a React frontend application and a shared utilities library.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## 🏗️ Project Structure
 
-## Run tasks
-
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```
+nxrepo/
+├── frontend/                 # React application with Vite
+├── libs/
+│   └── shared-utils/        # Shared utilities library
+├── package.json             # Root package.json with workspace scripts
+├── pnpm-workspace.yaml      # pnpm workspace configuration
+└── nx.json                  # NX workspace configuration
 ```
 
-For example:
+## 🚀 Quick Start
 
-```sh
-npx nx build myproject
+### Prerequisites
+
+- Node.js 18.18.0+ (recommended: 20.19+ or 22.12+)
+- pnpm 8.0.0+
+
+### Installation
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build all projects
+pnpm build
+
+# Run tests
+pnpm test
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## 📦 Available Projects
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Frontend Application
+- **Path**: `frontend/`
+- **Type**: React application
+- **Bundler**: Vite
+- **Features**: Routing, CSS styling, Jest testing, Cypress E2E
 
-## Add new projects
+### Shared Utils Library
+- **Path**: `libs/shared-utils/`
+- **Type**: TypeScript library
+- **Features**: Common utilities (email validation, debounce, formatting)
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+## 🛠️ Development Commands
 
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+### Build Commands
+```bash
+# Build all projects
+pnpm build
+
+# Build specific project
+pnpm nx build frontend
+pnpm nx build shared-utils
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+### Development Commands
+```bash
+# Start development server for frontend
+pnpm dev
+# or
+pnpm nx serve frontend
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+# Run tests for all projects
+pnpm test
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+# Run tests for specific project
+pnpm nx test frontend
+pnpm nx test shared-utils
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Code Quality
+```bash
+# Lint all projects
+pnpm lint
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+# Format code with Prettier
+pnpm format
 
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+# Visualize project dependencies
+pnpm graph
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+## 🧪 Testing
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The workspace includes comprehensive testing setup:
 
-### Step 2
+- **Unit Tests**: Jest for both frontend and library
+- **E2E Tests**: Cypress for frontend application
+- **Test Coverage**: Available for all projects
 
-Use the following command to configure a CI workflow for your workspace:
+```bash
+# Run all tests
+pnpm nx run-many -t test
 
-```sh
-npx nx g ci-workflow
+# Run tests with coverage
+pnpm nx test shared-utils --coverage
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 📊 Project Graph
 
-## Install Nx Console
+View the dependency graph of your workspace:
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```bash
+pnpm nx graph
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This will open a visual representation of how your projects depend on each other.
 
-## Useful links
+## 🔧 Adding New Projects
 
-Learn more:
+### Generate a new React application:
+```bash
+pnpm nx g @nx/react:app my-new-app --bundler=vite
+```
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Generate a new library:
+```bash
+pnpm nx g @nx/js:lib my-new-lib
+```
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Generate a new Node.js application:
+```bash
+pnpm nx g @nx/node:app my-api
+```
+
+## 📁 Workspace Configuration
+
+### Key Files
+- `nx.json` - NX workspace configuration
+- `pnpm-workspace.yaml` - pnpm workspace setup
+- `tsconfig.base.json` - Base TypeScript configuration
+- `jest.preset.js` - Jest configuration preset
+
+### Package Manager
+This workspace uses **pnpm** for efficient dependency management with workspace support.
+
+## 🚀 Deployment
+
+### Build for Production
+```bash
+# Build all projects for production
+pnpm build
+
+# Build output locations:
+# - Frontend: dist/frontend/
+# - Shared Utils: dist/libs/shared-utils/
+```
+
+### Frontend Deployment
+The React frontend builds to static files that can be deployed to any static hosting service:
+- Netlify
+- Vercel
+- AWS S3 + CloudFront
+- GitHub Pages
+
+## 🤝 Contributing
+
+1. Install dependencies: `pnpm install`
+2. Make your changes
+3. Run tests: `pnpm test`
+4. Build projects: `pnpm build`
+5. Format code: `pnpm format`
+
+## 📚 Learn More
+
+- [NX Documentation](https://nx.dev)
+- [pnpm Workspaces](https://pnpm.io/workspaces)
+- [React Documentation](https://react.dev)
+- [Vite Documentation](https://vitejs.dev)
+
+## 🔗 Useful Links
+
+- [NX Console Extension](https://nx.dev/nx-console) - IDE integration
+- [NX Cloud](https://nx.app) - CI/CD and caching
+- [NX Community Discord](https://go.nx.dev/community)
