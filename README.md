@@ -2,15 +2,21 @@
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-A modern monorepo setup using NX build system with pnpm package manager. This workspace includes a React frontend application and a shared utilities library.
+A comprehensive monorepo setup using NX build system with pnpm package manager. This workspace includes multiple applications and shared libraries organized for scalability and maintainability.
 
 ## 🏗️ Project Structure
 
 ```
 nxrepo/
-├── frontend/                 # React application with Vite
+├── apps/
+│   ├── web/                 # React web application (Frontend)
+│   ├── web-e2e/            # Cypress E2E tests for web app
+│   └── api/                 # Node.js Express API (Backend)
 ├── libs/
-│   └── shared-utils/        # Shared utilities library
+│   ├── ui-components/       # Shared React UI components
+│   ├── shared-core/         # Core utilities and helpers
+│   ├── shared-types/        # TypeScript type definitions
+│   └── shared-config/       # Configuration management
 ├── package.json             # Root package.json with workspace scripts
 ├── pnpm-workspace.yaml      # pnpm workspace configuration
 └── nx.json                  # NX workspace configuration
@@ -26,6 +32,10 @@ nxrepo/
 ### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/afiksnyk/nxrepo.git
+cd nxrepo
+
 # Install dependencies
 pnpm install
 
@@ -36,148 +46,369 @@ pnpm build
 pnpm test
 ```
 
-## 📦 Available Projects
+## 📦 Applications
 
-### Frontend Application
-- **Path**: `frontend/`
-- **Type**: React application
-- **Bundler**: Vite
-- **Features**: Routing, CSS styling, Jest testing, Cypress E2E
+### Web Application (`apps/web`)
+- **Type**: React application with Vite
+- **Port**: 4200
+- **Features**: 
+  - Modern React with TypeScript
+  - Vite for fast development and building
+  - CSS modules for styling
+  - Jest for unit testing
+  - Uses shared UI components
 
-### Shared Utils Library
-- **Path**: `libs/shared-utils/`
-- **Type**: TypeScript library
-- **Features**: Common utilities (email validation, debounce, formatting)
+```bash
+# Development
+pnpm nx serve web
+
+# Build
+pnpm nx build web
+
+# Test
+pnpm nx test web
+```
+
+### API Application (`apps/api`)
+- **Type**: Node.js Express server
+- **Port**: 3000
+- **Features**:
+  - Express.js framework
+  - TypeScript support
+  - RESTful API endpoints
+  - Health check endpoint
+  - Error handling middleware
+
+```bash
+# Development
+pnpm nx serve api
+
+# Build
+pnpm nx build api
+
+# Test
+pnpm nx test api
+```
+
+### E2E Tests (`apps/web-e2e`)
+- **Type**: Cypress end-to-end tests
+- **Target**: Web application
+- **Features**: Automated browser testing
+
+```bash
+# Run E2E tests
+pnpm nx e2e web-e2e
+```
+
+## 📚 Libraries
+
+### UI Components (`libs/ui-components`)
+Shared React components library with:
+- **Button**: Various styles and sizes
+- **Input**: Form inputs with validation
+- **Card**: Content containers
+- **LoadingSpinner**: Loading indicators
+
+```typescript
+import { Button, Input, Card } from '@nxrepo/ui-components';
+
+// Usage
+<Button variant="primary" size="large">Click me</Button>
+<Input label="Email" type="email" required />
+<Card title="My Card">Content here</Card>
+```
+
+### Shared Core (`libs/shared-core`)
+Core utilities and helper functions:
+- Email validation
+- Debounce functionality
+- String formatting
+- Date utilities
+
+```typescript
+import { validateEmail, debounce, formatMessage } from '@nxrepo/shared-core';
+
+// Usage
+const isValid = validateEmail('user@example.com');
+const debouncedFn = debounce(myFunction, 300);
+const message = formatMessage('Hello World');
+```
+
+### Shared Types (`libs/shared-types`)
+TypeScript type definitions shared across applications:
+- User interfaces
+- API response types
+- Common entity types
+- Event types
+
+```typescript
+import type { User, ApiResponse, FilterOptions } from '@nxrepo/shared-types';
+
+// Usage
+const user: User = { id: '1', name: 'John', email: 'john@example.com' };
+const response: ApiResponse<User[]> = { success: true, data: users };
+```
+
+### Shared Config (`libs/shared-config`)
+Configuration management utilities:
+- Database configuration
+- API configuration  
+- Authentication settings
+- Environment validation
+
+```typescript
+import { validateConfig, defaultConfig } from '@nxrepo/shared-config';
+
+// Usage
+const config = validateConfig({
+  ...defaultConfig,
+  database: { host: 'localhost', port: 5432 }
+});
+```
 
 ## 🛠️ Development Commands
 
-### Build Commands
+### Global Commands
 ```bash
 # Build all projects
 pnpm build
 
-# Build specific project
-pnpm nx build frontend
-pnpm nx build shared-utils
-```
-
-### Development Commands
-```bash
-# Start development server for frontend
-pnpm dev
-# or
-pnpm nx serve frontend
-
-# Run tests for all projects
+# Test all projects
 pnpm test
 
-# Run tests for specific project
-pnpm nx test frontend
-pnpm nx test shared-utils
-```
-
-### Code Quality
-```bash
 # Lint all projects
 pnpm lint
 
-# Format code with Prettier
+# Format code
 pnpm format
 
-# Visualize project dependencies
+# Start web development server
+pnpm dev
+
+# View project dependency graph
 pnpm graph
 ```
 
-## 🧪 Testing
-
-The workspace includes comprehensive testing setup:
-
-- **Unit Tests**: Jest for both frontend and library
-- **E2E Tests**: Cypress for frontend application
-- **Test Coverage**: Available for all projects
-
+### Project-Specific Commands
 ```bash
-# Run all tests
-pnpm nx run-many -t test
+# Build specific project
+pnpm nx build <project-name>
 
-# Run tests with coverage
-pnpm nx test shared-utils --coverage
+# Test specific project
+pnpm nx test <project-name>
+
+# Serve specific project
+pnpm nx serve <project-name>
+
+# Lint specific project
+pnpm nx lint <project-name>
 ```
 
-## 📊 Project Graph
+### Available Projects
+- `web` - React web application
+- `api` - Node.js API server
+- `web-e2e` - E2E tests
+- `ui-components` - UI components library
+- `shared-core` - Core utilities
+- `shared-types` - Type definitions
+- `shared-config` - Configuration utilities
 
-View the dependency graph of your workspace:
+## 🧪 Testing Strategy
+
+### Unit Tests
+- **Frontend**: Jest + React Testing Library
+- **Backend**: Jest + Supertest
+- **Libraries**: Jest
+
+### E2E Tests
+- **Tool**: Cypress
+- **Target**: Full application workflows
+- **Coverage**: Critical user journeys
+
+### Running Tests
+```bash
+# All tests
+pnpm test
+
+# Specific project tests
+pnpm nx test web
+pnpm nx test api
+
+# E2E tests
+pnpm nx e2e web-e2e
+
+# Test with coverage
+pnpm nx test web --coverage
+```
+
+## 📊 Project Dependencies
+
+View the dependency graph to understand how projects relate:
 
 ```bash
 pnpm nx graph
 ```
 
-This will open a visual representation of how your projects depend on each other.
+### Dependency Flow
+```
+apps/web → libs/ui-components → libs/shared-core
+         → libs/shared-types
+         → libs/shared-config
+
+apps/api → libs/shared-core
+         → libs/shared-types
+         → libs/shared-config
+```
 
 ## 🔧 Adding New Projects
 
-### Generate a new React application:
+### Generate New Application
 ```bash
-pnpm nx g @nx/react:app my-new-app --bundler=vite
+# React app
+pnpm nx g @nx/react:app my-app --directory=apps/my-app
+
+# Node.js app
+pnpm nx g @nx/node:app my-api --directory=apps/my-api
 ```
 
-### Generate a new library:
+### Generate New Library
 ```bash
-pnpm nx g @nx/js:lib my-new-lib
+# React library
+pnpm nx g @nx/react:lib my-components --directory=libs/my-components
+
+# TypeScript library
+pnpm nx g @nx/js:lib my-utils --directory=libs/my-utils
 ```
-
-### Generate a new Node.js application:
-```bash
-pnpm nx g @nx/node:app my-api
-```
-
-## 📁 Workspace Configuration
-
-### Key Files
-- `nx.json` - NX workspace configuration
-- `pnpm-workspace.yaml` - pnpm workspace setup
-- `tsconfig.base.json` - Base TypeScript configuration
-- `jest.preset.js` - Jest configuration preset
-
-### Package Manager
-This workspace uses **pnpm** for efficient dependency management with workspace support.
 
 ## 🚀 Deployment
 
-### Build for Production
+### Development
 ```bash
-# Build all projects for production
-pnpm build
-
-# Build output locations:
-# - Frontend: dist/frontend/
-# - Shared Utils: dist/libs/shared-utils/
+# Start all services
+pnpm dev        # Web app on :4200
+pnpm nx serve api  # API on :3000
 ```
 
-### Frontend Deployment
-The React frontend builds to static files that can be deployed to any static hosting service:
-- Netlify
-- Vercel
-- AWS S3 + CloudFront
-- GitHub Pages
+### Production Build
+```bash
+# Build all projects
+pnpm build
+
+# Build outputs:
+# - Web: dist/apps/web/
+# - API: dist/apps/api/
+# - Libraries: dist/libs/*/
+```
+
+### Deployment Options
+
+#### Web Application
+- **Static Sites**: Netlify, Vercel, GitHub Pages
+- **CDN**: AWS CloudFront, Azure CDN
+- **Containers**: Docker, Kubernetes
+
+#### API Application
+- **Cloud**: AWS Lambda, Google Cloud Functions
+- **Containers**: Docker, Kubernetes
+- **Traditional**: VPS, dedicated servers
+
+## 🔗 API Endpoints
+
+The API server provides the following endpoints:
+
+```
+GET  /                 # Welcome message
+GET  /api/health       # Health check
+GET  /api/users        # Get all users
+POST /api/users        # Create new user
+```
+
+### Example API Usage
+```bash
+# Health check
+curl http://localhost:3000/api/health
+
+# Get users
+curl http://localhost:3000/api/users
+
+# Create user
+curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com"}'
+```
 
 ## 🤝 Contributing
 
-1. Install dependencies: `pnpm install`
-2. Make your changes
-3. Run tests: `pnpm test`
-4. Build projects: `pnpm build`
-5. Format code: `pnpm format`
+1. **Setup**: `pnpm install`
+2. **Development**: Create feature branch
+3. **Testing**: `pnpm test` (ensure all tests pass)
+4. **Building**: `pnpm build` (ensure all projects build)
+5. **Linting**: `pnpm lint` (fix any issues)
+6. **Formatting**: `pnpm format`
+7. **Submit**: Create pull request
+
+### Code Standards
+- TypeScript for type safety
+- ESLint for code quality
+- Prettier for code formatting
+- Jest for testing
+- Conventional commits
+
+## 📁 Configuration Files
+
+### Key Configuration Files
+- `nx.json` - NX workspace configuration
+- `package.json` - Dependencies and scripts
+- `tsconfig.base.json` - TypeScript configuration
+- `pnpm-workspace.yaml` - pnpm workspace setup
+- `jest.preset.js` - Jest testing configuration
+
+### Environment Variables
+```bash
+# API Configuration
+PORT=3000
+HOST=localhost
+
+# Database (when implemented)
+DATABASE_URL=postgresql://localhost:5432/nxrepo
+```
 
 ## 📚 Learn More
 
-- [NX Documentation](https://nx.dev)
-- [pnpm Workspaces](https://pnpm.io/workspaces)
-- [React Documentation](https://react.dev)
-- [Vite Documentation](https://vitejs.dev)
+### Documentation Links
+- [NX Documentation](https://nx.dev) - Build system and monorepo tools
+- [pnpm Workspaces](https://pnpm.io/workspaces) - Package manager
+- [React Documentation](https://react.dev) - Frontend framework
+- [Express.js](https://expressjs.com) - Backend framework
+- [Vite Documentation](https://vitejs.dev) - Build tool
+- [Cypress](https://cypress.io) - E2E testing
+
+### NX Features Used
+- **Project Graph**: Visualize dependencies
+- **Affected**: Run tasks only on changed projects
+- **Caching**: Speed up builds and tests
+- **Code Generation**: Scaffolding new projects
+- **Task Orchestration**: Parallel execution
 
 ## 🔗 Useful Links
 
 - [NX Console Extension](https://nx.dev/nx-console) - IDE integration
-- [NX Cloud](https://nx.app) - CI/CD and caching
+- [NX Cloud](https://nx.app) - CI/CD and remote caching
 - [NX Community Discord](https://go.nx.dev/community)
+- [Repository Issues](https://github.com/afiksnyk/nxrepo/issues)
+
+---
+
+## 📈 Project Status
+
+- ✅ **Web Application**: React app with Vite
+- ✅ **API Server**: Express.js with TypeScript  
+- ✅ **UI Components**: Shared component library
+- ✅ **Shared Libraries**: Types, config, and utilities
+- ✅ **Testing Setup**: Unit and E2E tests
+- ✅ **Build System**: NX with pnpm
+- 🔄 **Mobile App**: Coming soon
+- 🔄 **Database Integration**: Coming soon
+- 🔄 **Authentication**: Coming soon
+
+This monorepo provides a solid foundation for building scalable applications with shared code and consistent tooling.
